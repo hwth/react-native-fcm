@@ -278,6 +278,10 @@ RCT_EXPORT_MODULE();
     NSMutableDictionary* data = [[NSMutableDictionary alloc] initWithDictionary: notification.request.content.userInfo];
     [data setValue:@"will_present_notification" forKey:@"_notificationType"];
     [self sendNotificationEventWhenAvailable:@{@"data": data, @"completionHandler": completionHandler}];
+
+    if (RCTSharedApplication().applicationState == UIApplicationStateActive) {
+        completionHandler(UNNotificationPresentationOptionNone);
+    }
 }
 
 + (void)sendNotificationEventWhenAvailable:(NSDictionary*)data
